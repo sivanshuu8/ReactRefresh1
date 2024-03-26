@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  background: grey;
+  padding: 5px;
+}
+.header-logo {
+  width: 150px;
+}
+.nav-container > ul {
+  display: flex;
+  gap: 4px;
+  list-style-type: none;
+}
+
+.nav-container li {
+  padding: 8px 12px;
+  color: white;
+}
+
+.body {
+  margin: 20px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rest-container {
+  width: 200px;
+  height: auto;
+  background-color: #f0f0f0;
+  padding: 5px;
+}
+
+.rest-container:hover {
+  border: 1px solid black;
+}
+.rest-image {
+  width: 100%;
+}
