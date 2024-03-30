@@ -11,7 +11,7 @@ const Body = () => {
 
     useEffect(() => {
         fetchData();setSearchListOfRest
-    },[]);
+    },[listOfRest]);
 
     const fetchData = async () => {
         const data = await fetch ('https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.1756772&lng=91.7417143&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
@@ -26,10 +26,8 @@ const Body = () => {
     <div className="searchbar">
         <input type='text' className="search-box" value={filteredList} onChange={(e) => setFilterList(e.target.value)} />
         <button className="search-btn" onClick={() => {
-            const searchList = listOfRest.filter((list) => 
-                (list.info.name.toLowerCase().includes(filteredList.toLowerCase()))
-            );
-            searchList.length === 0 ? setListOfRest(listOfRest) : setSearchListOfRest(searchList);
+            const searchedResult = listOfRest.filter((list) => list.info.name.toLowerCase().includes(filteredList.toLowerCase())) 
+            searchedResult.length !== 0 ? setSearchListOfRest(searchedResult) : setSearchListOfRest(listOfRest)
         }}>Search</button>
     </div>
     <div style={{display:'flex', gap:'24px', flexWrap:'wrap'}}>

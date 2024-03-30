@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header.jsx";
 import Body from "./components/Body.js";
+import About from "./components/About.js";
+import Error from "./components/Error.js";
+import { createBrowserRouter,RouterProvider } from "react-router-dom";
 
 
 // const heading = React.createElement("div", 
@@ -55,5 +58,17 @@ const TheFoodCompany = () => (
     </div>
 );
 
+const appRoute = createBrowserRouter([
+    {
+        path: '/',
+        element:<TheFoodCompany />,
+        errorElement:<Error />,
+    },
+    {
+        path:'/about',
+        element:<About />
+    }
+])
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<TheFoodCompany />);
+root.render(<RouterProvider router={appRoute} />);
