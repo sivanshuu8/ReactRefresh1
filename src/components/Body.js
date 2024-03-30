@@ -1,13 +1,16 @@
 import React from "react";
 import RestCard from "./RestCard";
+import Shimmer from "./Shimmer";
 import { useEffect, useState } from "react";
 
 const Body = () => {
 
     const [listOfRest, setListOfRest] = useState([]);
+    const [searchListOfRest, setSearchListOfRest ] = useState([]);
+    const [filteredList, setFilterList] = useState('');
 
     useEffect(() => {
-        fetchData();
+        fetchData();setSearchListOfRest
     },[]);
 
     const fetchData = async () => {
@@ -15,24 +18,57 @@ const Body = () => {
         const json = await data.json();
         const cards = json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants;
         setListOfRest(cards);
+        setSearchListOfRest(cards);
         // console.log(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
     }
 
-    return(
-        <div className="body">
-            <div className="searchbar"></div>
-            {listOfRest.map((rest) => <RestCard resData={rest}/>)}
-            {/* <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard />
-            <RestCard /> */}
-        </div>
-    )
+    return listOfRest.length === 0 ? <Shimmer /> : <div className="body">
+    <div className="searchbar">
+        <input type='text' className="search-box" value={filteredList} onChange={(e) => setFilterList(e.target.value)} />
+        <button className="search-btn" onClick={() => {
+            const searchList = listOfRest.filter((list) => 
+                (list.info.name.toLowerCase().includes(filteredList.toLowerCase()))
+            );
+            searchList.length === 0 ? setListOfRest(listOfRest) : setSearchListOfRest(searchList);
+        }}>Search</button>
+    </div>
+    <div style={{display:'flex', gap:'24px', flexWrap:'wrap'}}>
+        {searchListOfRest.map((rest) => <RestCard resData={rest}/>)}
+    </div>
+    {/* <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard />
+    <RestCard /> */}
+</div>;
+
+    // if(listOfRest.length === 0){
+    //     return(
+    //         <Shimmer />
+    //     )
+    // }
+
+    // return(
+    //     <div className="body">
+    //         <div className="searchbar"></div>
+    //         <div style={{display:'flex', gap:'24px', flexWrap:'wrap'}}>
+    //             {listOfRest.map((rest) => <RestCard resData={rest}/>)}
+    //         </div>
+    //         {/* <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard />
+    //         <RestCard /> */}
+    //     </div>
+    // )
 }
 
 export default Body;
